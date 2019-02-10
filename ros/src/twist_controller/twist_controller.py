@@ -17,7 +17,7 @@ class Controller(object):
 	kd =0.
 	mn = 0. # Minimum throttle value
 	mx = 0.2 # Maximum throttle value
-	self.throttle_controler = PID(kp, ki, kd, mn, mx)
+	self.throttle_controller = PID(kp, ki, kd, mn, mx)
 	
 	tau = 0.5 # 1/(2pi*tau) = cutoff frequency
 	ts = .02 # Samp;e time
@@ -37,7 +37,7 @@ class Controller(object):
         # Return throttle, brake, steer
 	
 	if not dbw_enabled:
-	    self.throtlle_controller.reset()
+	    self.throttle_controller.reset()
 	    return 0., 0., 0.
 
 	current_vel = self.vel_lpf.filt(current_vel)
@@ -53,7 +53,7 @@ class Controller(object):
 	vel_error = linear_vel - current_vel
 	self.last_vel = current_vel
 
-	curent_time = rospy.get_time()
+	current_time = rospy.get_time()
 	sample_time = current_time -self.last_time
 	self.last_time = current_time
 
