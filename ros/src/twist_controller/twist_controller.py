@@ -37,7 +37,7 @@ class Controller(object):
         # Return throttle, brake, steer
 	
 	if not dbw_enabled:
-	    self.throtlle_controller.reset()
+	    self.throttle_controller.reset()
 	    return 0., 0., 0.
 
 	current_vel = self.vel_lpf.filt(current_vel)
@@ -53,7 +53,7 @@ class Controller(object):
 	vel_error = linear_vel - current_vel
 	self.last_vel = current_vel
 
-	curent_time = rospy.get_time()
+	current_time = rospy.get_time()
 	sample_time = current_time -self.last_time
 	self.last_time = current_time
 
