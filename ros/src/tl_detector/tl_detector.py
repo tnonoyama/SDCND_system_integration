@@ -90,7 +90,7 @@ class TLDetector(object):
             self.upcoming_red_light_pub.publish(Int32(self.last_wp))
         self.state_count += 1
 
-    def get_closest_waypoint(self, pose):
+    def get_closest_waypoint(self, x,y):
         """Identifies the closest path waypoint to the given position
             https://en.wikipedia.org/wiki/Closest_pair_of_points_problem
         Args:
@@ -117,7 +117,7 @@ class TLDetector(object):
 	# For testing on simulator
 	return light.state
 	
-	#For tesing on road
+	'''#For tesing on road
         if(not self.has_image):
             self.prev_light_loc = None
             return False
@@ -125,7 +125,7 @@ class TLDetector(object):
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
 
         #Get classification
-        return self.light_classifier.get_classification(cv_image)
+        return self.light_classifier.get_classification(cv_image)'''
 
     def process_traffic_lights(self):
         """Finds closest vis ible traffic light, if one exists, and determines its
@@ -149,9 +149,9 @@ class TLDetector(object):
 	for i, lit in enumerate(self.lights):
 		# getting traffic line position
 		line = stop_line_positions[i]
-		temp_wp_idx = self.get_closest_waypoints(line[0],line[1])
+		temp_wp_idx = self.get_closest_waypoint(line[0],line[1])
 		d = temp_wp_idx - car_position
-		if d>>0 and d<diff:
+		if d>=0 and d<diff:
 			diff = d
 			light = lit
 			line_wp = temp_wp_idx
