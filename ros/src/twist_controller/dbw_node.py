@@ -31,7 +31,7 @@ that we have created in the `__init__` function.
 
 '''
 
-RATE = 50
+RATE = 50 # 50 Hz is a MUST (by Udacity)
 
 class DBWNode(object):
     def __init__(self):
