@@ -22,8 +22,8 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 10 # Number of waypoints we will publish. You can change this number1
-MAX_DECEL = .5
+LOOKAHEAD_WPS = 20 # Number of waypoints we will publish. You can change this number1
+MAX_DECEL = 0.3 # Make this value small and car will stop earlier at red signals
 
 class WaypointUpdater(object):
 	
