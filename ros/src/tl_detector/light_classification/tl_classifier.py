@@ -1,4 +1,4 @@
-#rom styx_msgs.msg import TrafficLight
+from styx_msgs.msg import TrafficLight
 import numpy as np
 import os
 import six.moves.urllib as urllib
@@ -19,19 +19,17 @@ class TLClassifier(object):
 
 		def __init__(self):
 				#TODO load classifier
-			MODEL_NAME = 'traffic_sim_inference_graph'
+			MODEL_NAME = 'simulator_inference_graph'
 			#MODEL_FILE = MODEL_NAME + '.tar.gz'
 			#DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
-
+			BASE_PATH = '/home/student/SDCND_system_integration/ros/src/tl_detector/light_classification/'
 			# Path to frozen detection graph. This is the actual model that is used for the object detection.
-			PATH_TO_FROZEN_GRAPH = 'models/' + MODEL_NAME + '/frozen_inference_graph.pb'
+			PATH_TO_FROZEN_GRAPH = BASE_PATH + 'models/' + MODEL_NAME + '/frozen_inference_graph.pb'
 
 			# List of the strings that is used to add correct label for each box.
-			PATH_TO_LABELS = 'label_map.pbtxt'
+			PATH_TO_LABELS = BASE_PATH + 'label_map.pbtxt'
 
 
-			self.load_model(PATH_TO_FROZEN_GRAPH)
-			print('new function worked')
 			# Loading tensorflow model
 			self.detection_graph = tf.Graph()
 			with self.detection_graph.as_default():
@@ -39,37 +37,15 @@ class TLClassifier(object):
 				with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
 					self.serialized_graph = fid.read()
 					self.od_graph_def.ParseFromString(self.serialized_graph)
-					print('pre-model loaded')
+					
 					tf.import_graph_def(self.od_graph_def, name='')				
-					#tf.import(self.od_graph_def)
-					print('model loaded')
+					
 			
 			#Loading label map
 			self.category_index = label_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 			
 			# 
-		def load_model(self, model_path):
-			base_folder = os.path.dirname(os.path.realpath(__file__))
-			model_path = os.path.join(base_folder, model_path)
-		
-			#rospy.loginfo('Loading model: %s', model_path)
 
-			graph = tf.Graph()
-		
-			with graph.as_default():
-			    graph_def = tf.GraphDef()
-			    with tf.gfile.GFile(model_path, 'rb') as fid:
-				serialized_graph = fid.read()
-				graph_def.ParseFromString(serialized_graph)
-				tf.import_graph_def(graph_def, name='')
-
-			self.sess = tf.Session(graph = graph)
-
-			self.image_tensor = graph.get_tensor_by_name('image_tensor:0')
-			self.boxes_tensor = graph.get_tensor_by_name('detection_boxes:0')
-			self.scores_tensor = graph.get_tensor_by_name('detection_scores:0')
-			self.classes_tensor = graph.get_tensor_by_name('detection_classes:0')
-			self.detections_tensor = graph.get_tensor_by_name('num_detections:0')
 		def run_inference_for_single_image(self, image):
 			with self.detection_graph.as_default():
 				with tf.Session() as sess:
