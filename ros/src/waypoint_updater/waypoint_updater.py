@@ -22,8 +22,8 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 20 # Number of waypoints we will publish. You can change this number1
-MAX_DECEL = 0.3 # Make this value small and car will stop earlier at red signals
+LOOKAHEAD_WPS = 35 # Number of waypoints we will publish. You can change this number1
+MAX_DECEL = 0.2 # Make this value small and car will stop earlier at red signals
 
 class WaypointUpdater(object):
 	
@@ -94,12 +94,14 @@ class WaypointUpdater(object):
 		for i, wp in enumerate(waypoints):
 			p = Waypoint()
 			p.pose = wp.pose
-			stop_idx = max(self.stopline_wp_idx - closest_idx - 2, 0)
+			stop_idx = max(self.stopline_wp_idx - closest_idx - 3, 0)
 			dist = self.distance(waypoints, i, stop_idx)
-			vel = math.sqrt(2 * MAX_DECEL * dist)
-			if vel < 1.:
+			vel = math.sqrt(MAX_DECEL * dist)
+			if vel < 1.5:
 				vel = 0.
-			p.twist.twist.linear.x = min(vel, self.get_waypoint_velocity(wp))
+			#rospy.loginfo('Distance :: %s', str(dist))
+			#rospy.loginfo('Velocity :: %s', str(vel))
+			p.twist.twist.linear.x = min(vel, wp.twist.twist.linear.x)
 			temp.append(p)
 
 		return temp
