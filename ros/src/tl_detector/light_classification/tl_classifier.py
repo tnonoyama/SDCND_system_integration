@@ -134,6 +134,8 @@ class TLClassifier(object):
 
 			print('no of boxes: ', boxes.shape[0])
 			print('')
+			# assigning a default value
+			class_name = 'Unknown'
 
 			for i in range(min(max_boxes_to_draw, boxes.shape[0])):
 				if scores is None or scores[i] > min_score_thresh:
