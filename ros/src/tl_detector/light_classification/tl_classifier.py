@@ -6,6 +6,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import zipfile
+import rospy
 
 from distutils.version import StrictVersion
 from collections import defaultdict
@@ -22,8 +23,9 @@ class TLClassifier(object):
 			MODEL_NAME = 'simulator_inference_graph'
 			#MODEL_FILE = MODEL_NAME + '.tar.gz'
 			#DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
-			BASE_PATH = '/home/student/SDCND_system_integration/ros/src/tl_detector/light_classification/'
+			BASE_PATH = './light_classification/'
 			# Path to frozen detection graph. This is the actual model that is used for the object detection.
+			rospy.loginfo("path :: %s", os.getcwd())
 			PATH_TO_FROZEN_GRAPH = BASE_PATH + 'models/' + MODEL_NAME + '/frozen_inference_graph.pb'
 
 			# List of the strings that is used to add correct label for each box.
