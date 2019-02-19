@@ -39,14 +39,14 @@ class TLClassifier(object):
 				with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
 					self.serialized_graph = fid.read()
 					self.od_graph_def.ParseFromString(self.serialized_graph)
-					
-					tf.import_graph_def(self.od_graph_def, name='')				
-					
-			
+
+					tf.import_graph_def(self.od_graph_def, name='')
+
+
 			#Loading label map
 			self.category_index = label_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
-			
-			# 
+
+			#
 
 		def run_inference_for_single_image(self, image):
 			with self.detection_graph.as_default():
@@ -93,16 +93,13 @@ class TLClassifier(object):
 					if 'detection_masks' in output_dict:
 						output_dict['detection_masks'] = output_dict['detection_masks'][0]
 			return output_dict
-	
+
 		def get_classification(self, image):
 			"""Determines the color of the traffic light in the image
-
 			Args:
 					image (cv::Mat): image containing the traffic light
-
 			Returns:
 					int: ID of traffic light color (specified in styx_msgs/TrafficLight)
-
 			"""
 
 			#image: uint8 numpy array with shape (img_height, img_width, 3)
@@ -134,7 +131,7 @@ class TLClassifier(object):
 
 			print('no of boxes: ', boxes.shape[0])
 			print('')
-			# assigning a default value
+			# assigining a default value
 			class_name = 'Unknown'
 
 			for i in range(min(max_boxes_to_draw, boxes.shape[0])):
@@ -144,7 +141,7 @@ class TLClassifier(object):
 					if classes[i] in self.category_index.keys():
 						class_name = self.category_index[classes[i]]['name']
 						print(i,class_name, '{}%'.format(int(100*scores[i])))
-			
+
 			#class_name = category_index[classes[0]]['name']
 			#print(class_name)
 
