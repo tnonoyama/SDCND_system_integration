@@ -52,6 +52,9 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
+	self.count = 1
+	self.last_classification = TrafficLight.UNKNOWN
+
         rospy.spin()
 
     def pose_cb(self, msg):
@@ -127,11 +130,18 @@ class TLDetector(object):
         if(not self.has_image):
             self.prev_light_loc = None
             return False
-
-        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-
+	if self.count == 1:
+		self.count = 0
+        	cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+		self.last_classification = self.light_classifier.get_classification(cv_image)
+		print('Classified...', self.last_classification)
+		return self.last_classification
+	else:
+		print('using old classification...', self.last_classification)		
+		self.count += 1
+	    	return self.last_classification
         #Get classification
-        return self.light_classifier.get_classification(cv_image)
+         
 
     def process_traffic_lights(self):
         """Finds closest vis ible traffic light, if one exists, and determines its

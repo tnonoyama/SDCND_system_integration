@@ -115,11 +115,11 @@ class TLClassifier(object):
 		    #  values ranging between 0 and 1, can be None.
 
 
-
+			#input_image = np.expand_dims(image,axis=0)
 
 			#TODO implement light color prediction
 			output_dict = self.run_inference_for_single_image(image)
-			print("ran inference")
+			#print("ran inference")
 
 			boxes = output_dict['detection_boxes']
 			classes = output_dict['detection_classes']
@@ -129,7 +129,7 @@ class TLClassifier(object):
 			min_score_thresh = 0.5
 			max_boxes_to_draw=20
 
-			print('no of boxes: ', boxes.shape[0])
+			#print('no of boxes: ', boxes.shape[0])
 			print('')
 			# assigining a default value
 			class_name = 'Unknown'
@@ -149,7 +149,7 @@ class TLClassifier(object):
 			# uint8 GREEN=2
 			# uint8 YELLOW=1
 			# uint8 RED=0
-
+			
 			if class_name == 'Red':
 				return TrafficLight.RED
 			elif class_name == 'Green':
