@@ -18,6 +18,7 @@ This project was a team project. This team consisted of 5 members.
 
 ### Overview
 This is the architecture of the system used to drive CARLA.
+![alt text](http://url/to/img.png)
 
 The initial repository provided by Udcaity has a basic structure of the archtecture and the corresponding ROS nodes. There are 3 ROS nodes we work on for completetion of the project: 
 
