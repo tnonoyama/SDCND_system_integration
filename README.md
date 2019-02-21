@@ -30,14 +30,14 @@ Let's look into each =>
 
 1. Waypoint Updater Node
 
-This package contains the waypoint updater node: `waypoint_updater.py`. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the `/base_waypoints`, `/current_pose`, `/obstacle_waypoint`, and `/traffic_waypoint topics`, and publish a list of waypoints ahead of the car with target velocities to the `/final_waypoints topic`.
+    This package contains the waypoint updater node: `waypoint_updater.py`. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the `/base_waypoints`, `/current_pose`, `/obstacle_waypoint`, and `/traffic_waypoint topics`, and publish a list of waypoints ahead of the car with target velocities to the `/final_waypoints topic`.
 
 
 
 
 2. DBW node:
 
- A PID Controller was implemented to control the steering, brake and accelerations. We set the proportinal, integral, and differential correction like the below table.
+    A PID Controller was implemented to control the steering, brake and accelerations. We set the proportinal, integral, and differential correction like the below table.
 
 | Type | Value |
 |:-----------|------------:|
@@ -48,11 +48,9 @@ This package contains the waypoint updater node: `waypoint_updater.py`. The purp
 3. Traffic detection node and Traffic light classification
 
 
-TThis package contains the traffic light detection node: `tl_detector.py`. This node takes in data from the `/image_color`, `/current_pose`, and `/base_waypoints` topics and publishes the locations to stop for red traffic lights to the `/traffic_waypoint topic`.
+    This package contains the traffic light detection node: `tl_detector.py`. This node takes in data from the `/image_color`, `/current_pose`, and `/base_waypoints` topics and publishes the locations to stop for red traffic lights to the `/traffic_waypoint topic`.
 
-The `/current_pose topic` provides the vehicle's current position, and `/base_waypoints` provides a complete list of waypoints the car will be following.
-
-You will build both a traffic light detection node and a traffic light classification node. Traffic light detection should take place within tl_detector.py, whereas traffic light classification should take place within `../tl_detector/light_classification_model/tl_classfier.py`. For classification, a SSD_mobilenet model is depolyed using tensorflow object detection API. A detailed information about the classifier can be found [here](https://github.com/allaydesai/Traffic-Light-Classifier/blob/master/README.md).
+The `/current_pose topic` provides the vehicle's current position, and `/base_waypoints` provides a complete list of waypoints the car will be following. You will build both a traffic light detection node and a traffic light classification node. Traffic light detection should take place within tl_detector.py, whereas traffic light classification should take place within `../tl_detector/light_classification_model/tl_classfier.py`. For classification, a SSD_mobilenet model is depolyed using tensorflow object detection API. A detailed information about the classifier can be found [here](https://github.com/allaydesai/Traffic-Light-Classifier/blob/master/README.md).
 
 
 
