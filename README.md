@@ -7,7 +7,7 @@ This is the project repo for the final project of the Udacity Self-Driving Car N
 
 This project was a team project. This team consisted of 5 members.
                                               
-| Team Thunder |
+
 | Team Members  | Email ID  | 
 | :------------ |:---------:|
 | Sharad Rawat  | rawat.33@osu.edu |
