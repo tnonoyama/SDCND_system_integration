@@ -1,23 +1,77 @@
+### Team Thunder
+
+
+
+
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
 
-1. Waypoint_update node
+This project was a team project. This team consisted of 5 members.
+                                              
 
-2. DBW node
- We set the proportinal, integral, and differential correction like the below table.
+| Team Members  | Email ID  | 
+| :------------ |:---------:|
+| Sharad Rawat  | rawat.33@osu.edu |
+| Tadashi Nonoyama  |   tnonoyama0629@gmail.com     |
+| Allay Desai | allaydesai@gmail.com |
+| Aniruddha Dhamal |    ani123dhamal@gmail.com     |
+| Jeremy Ju |     thelittlespice@gmail.com    |
 
-| Type | Value |
-|:-----------|------------:|
-| Proportional | 0.2 |
-| Integral | 0.002 |
-| Differential | 0.005 |
+### Overview
+This is the architecture of the system used to drive CARLA.
+![alt text](https://github.com/SharadRawat/SDCND_system_integration/blob/master/imgs/final-project-ros-graph-v3.png)
 
-3. Traffic detection node
+The initial repository provided by Udcaity has a basic structure of the archtecture and the corresponding ROS nodes. There are 3 ROS nodes we work on for completetion of the project: 
 
-4. Traffic light classification
+They are:
+1. Waypoint Updater Node
+2. BW Node
+3. Traffic Light Detection Node
 
-5. Final waypoint node
+Let's look into each =>
+
+1. **Waypoint Updater Node**
+
+    This package contains the waypoint updater node: `waypoint_updater.py`. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the `/base_waypoints`, `/current_pose`, `/obstacle_waypoint`, and `/traffic_waypoint topics`, and publish a list of waypoints ahead of the car with target velocities to the `/final_waypoints topic`.
 
 
+
+
+2. **DBW node**
+
+   DBWNode subscribes to the current velocity and way points that are published by waypoint_updator node. These topics are then processed using the two control logics below to determine the final throttle, steering and brake ratio, to maneuver the vehicle smoothly along the waypoints. 
+
+    - Subscribes to topics: `/current velocity`, `/twist_cmd`, `/dbw_enabled`
+    - Publishes to topics: `/steering_com`, `/throttle_cmd`, `/brake_cmd` 	
+
+   
+
+   DBW node then processes vehicle's throttle/brake and steering control using models below
+
+   - twist_control.py: vehicle throttle control using PID and low-pass filter 
+   - yaw_control.py: steering control with a  simple vehicle dynamics model and linear/angular velocity
+
+   
+
+   We've set the proportional, integral, and differential values for PID as below.
+
+| Type              | Value |
+| ----------------- | ----- |
+| Proportional (Kp) | 0.2   |
+| Integral (Ki)     | 0.002 |
+| Differential (Kd) | 0.005 |
+
+
+3. **Traffic detection node and Traffic light classification**
+
+
+    This package contains the traffic light detection node: `tl_detector.py`. This node takes in data from the `/image_color`, `/current_pose`, and `/base_waypoints` topics and publishes the locations to stop for red traffic lights to the `/traffic_waypoint topic`.
+
+    The `/current_pose topic` provides the vehicle's current position, and `/base_waypoints` provides a complete list of waypoints the car will be following. You will build both a traffic light detection node and a traffic light classification node. Traffic light detection should take place within tl_detector.py, whereas traffic light classification should take place within `../tl_detector/light_classification_model/tl_classfier.py`. For classification, a SSD_mobilenet model is depolyed using tensorflow object detection API. A detailed information about the classifier can be found [here](https://github.com/allaydesai/Traffic-Light-Classifier/blob/master/README.md).
+
+
+
+
+### For Installation
 Please use **one** of the two installation options, either native **or** docker installation.
 
 ### Native Installation

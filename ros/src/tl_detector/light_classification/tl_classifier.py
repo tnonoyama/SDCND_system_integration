@@ -18,14 +18,20 @@ import label_map_util as label_util
 class TLClassifier(object):
 
 
-		def __init__(self):
+		def __init__(self, is_site):
 				#TODO load classifier
-			MODEL_NAME = 'simulator_inference_graph'
+			if is_site:
+				MODEL_NAME = 'loop_inference_graph'
+			else:
+				MODEL_NAME = 'simulator_inference_graph'
+				
 			#MODEL_FILE = MODEL_NAME + '.tar.gz'
 			#DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 			BASE_PATH = './light_classification/'
 			# Path to frozen detection graph. This is the actual model that is used for the object detection.
 			rospy.loginfo("path :: %s", os.getcwd())
+			
+			
 			PATH_TO_FROZEN_GRAPH = BASE_PATH + 'models/' + MODEL_NAME + '/frozen_inference_graph.pb'
 
 			# List of the strings that is used to add correct label for each box.
@@ -115,11 +121,11 @@ class TLClassifier(object):
 		    #  values ranging between 0 and 1, can be None.
 
 
-
+			#input_image = np.expand_dims(image,axis=0)
 
 			#TODO implement light color prediction
 			output_dict = self.run_inference_for_single_image(image)
-			print("ran inference")
+			#print("ran inference")
 
 			boxes = output_dict['detection_boxes']
 			classes = output_dict['detection_classes']
@@ -129,7 +135,7 @@ class TLClassifier(object):
 			min_score_thresh = 0.5
 			max_boxes_to_draw=20
 
-			print('no of boxes: ', boxes.shape[0])
+			#print('no of boxes: ', boxes.shape[0])
 			print('')
 			# assigining a default value
 			class_name = 'Unknown'
@@ -149,7 +155,7 @@ class TLClassifier(object):
 			# uint8 GREEN=2
 			# uint8 YELLOW=1
 			# uint8 RED=0
-
+			
 			if class_name == 'Red':
 				return TrafficLight.RED
 			elif class_name == 'Green':

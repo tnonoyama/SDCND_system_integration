@@ -13,6 +13,7 @@ import yaml
 from scipy.spatial import KDTree
 
 STATE_COUNT_THRESHOLD = 3
+CLASSIFIER_SKIP_IMGS = 3
 
 class TLDetector(object):
     def __init__(self):
@@ -40,17 +41,20 @@ class TLDetector(object):
 
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)
-
+	
         self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
         self.bridge = CvBridge()
-        self.light_classifier = TLClassifier()
+        self.light_classifier = TLClassifier(self.config['is_site'])
         self.listener = tf.TransformListener()
 
         self.state = TrafficLight.UNKNOWN
         self.last_state = TrafficLight.UNKNOWN
         self.last_wp = -1
         self.state_count = 0
+
+	self.count = CLASSIFIER_SKIP_IMGS
+	self.last_classification = TrafficLight.UNKNOWN
 
         rospy.spin()
 
@@ -127,11 +131,18 @@ class TLDetector(object):
         if(not self.has_image):
             self.prev_light_loc = None
             return False
-
-        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-
+	if self.count == CLASSIFIER_SKIP_IMGS:
+		self.count = 0
+        	cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+		self.last_classification = self.light_classifier.get_classification(cv_image)
+		print('Classified...', self.last_classification)
+		return self.last_classification
+	else:
+		print('using old classification...', self.last_classification)		
+		self.count += 1
+	    	return self.last_classification
         #Get classification
-        return self.light_classifier.get_classification(cv_image)
+         
 
     def process_traffic_lights(self):
         """Finds closest vis ible traffic light, if one exists, and determines its
