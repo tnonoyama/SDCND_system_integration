@@ -5,13 +5,16 @@
 
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
 
-This project was a team project. This team's name is ####  Team Thunder ####
-#### Team members
+This project was a team project. This team consisted of 5 members.
+                                              
+| Team Thunder |
 | Team Members  | Email ID  | 
 | :------------ |:---------:|
 | Sharad Rawat  | rawat.33@osu.edu |
-| col 2 is      |        |
-| zebra stripes |         |
+| Tadashi Nonoyama  |   tnonoyama0629@gmail.com     |
+| Allay Desai | allaydesai@gmail.com |
+| Aniruddha Dhamal |    ani123dhamal@gmail.com     |
+| Jeremy Ju |     thelittlespice@gmail.com    |
 
 1. Waypoint_update node
 
