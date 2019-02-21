@@ -24,7 +24,7 @@ The initial repository provided by Udcaity has a basic structure of the archtect
 
 They are:
 1. Waypoint Updater Node
-2 . BW Node
+2. BW Node
 3. Traffic Light Detection Node
 
 Let's look into each =>
@@ -56,7 +56,7 @@ Let's look into each =>
 
 
 
-
+### For Installation
 Please use **one** of the two installation options, either native **or** docker installation.
 
 ### Native Installation
