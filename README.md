@@ -16,8 +16,19 @@ This project was a team project. This team consisted of 5 members.
 | Aniruddha Dhamal |    ani123dhamal@gmail.com     |
 | Jeremy Ju |     thelittlespice@gmail.com    |
 
-1. Waypoint_update node
+### Overview
+This is the architecture of the system used to drive CARLA.
 
+The initial repository provided by Udcaity has a basic structure of the archtecture and the corresponding ROS nodes. There are 3 ROS nodes we work on for completetion of the project: 
+
+They are:
+1. Waypoint Updater Node
+2 . BW Node
+3. Traffic Light Detection Node
+
+Let's look into each =>
+
+1. Waypoint Updater Node
 
 This package contains the waypoint updater node: `waypoint_updater.py`. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the `/base_waypoints`, `/current_pose`, `/obstacle_waypoint`, and `/traffic_waypoint topics`, and publish a list of waypoints ahead of the car with target velocities to the `/final_waypoints topic`.
 
@@ -25,7 +36,7 @@ This package contains the waypoint updater node: `waypoint_updater.py`. The purp
 
 
 2. DBW node
- We set the proportinal, integral, and differential correction like the below table.
+ A PID Controller was implemented to control the steering, brake and accelerations. We set the proportinal, integral, and differential correction like the below table.
 
 | Type | Value |
 |:-----------|------------:|
@@ -33,7 +44,7 @@ This package contains the waypoint updater node: `waypoint_updater.py`. The purp
 | Integral | 0.002 |
 | Differential | 0.005 |
 
-3. Traffic detection node
+3. Traffic detection node and Traffic light classification
 
 
 TThis package contains the traffic light detection node: `tl_detector.py`. This node takes in data from the `/image_color`, `/current_pose`, and `/base_waypoints` topics and publishes the locations to stop for red traffic lights to the `/traffic_waypoint topic`.
@@ -42,9 +53,8 @@ The `/current_pose topic` provides the vehicle's current position, and `/base_wa
 
 You will build both a traffic light detection node and a traffic light classification node. Traffic light detection should take place within tl_detector.py, whereas traffic light classification should take place within `../tl_detector/light_classification_model/tl_classfier.py`.
 
-4. Traffic light classification
 
-5. Final waypoint node
+
 
 
 Please use **one** of the two installation options, either native **or** docker installation.
