@@ -81,11 +81,11 @@ class DBWNode(object):
             # You should only publish the control commands if dbw is enabled
 
             if not None in (self.current_linear_velocity, self.target_linear_velocity, self.target_angular_velocity):
-                throttle, brake, steering = self.controller.control(self.target_linear_velocity, self.target_angular_velocity, self.current_linear_velocity)
+                self.throttle, self.brake, self.steering = self.controller.control(self.target_linear_velocity, self.target_angular_velocity, self.current_linear_velocity)
 
             
             if self.dbw_enabled:
-                self.publish(throttle, brake, steering)
+                self.publish(self.throttle, self.brake, self.steering)
                 
             rate.sleep()
 
