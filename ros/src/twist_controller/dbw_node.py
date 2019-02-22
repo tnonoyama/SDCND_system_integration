@@ -67,12 +67,12 @@ class DBWNode(object):
         # self.controller = Controller(<Arguments you wish to provide>)
         self.controller = Controller(vehicle_mass, fuel_capacity, wheel_radius, decel_limit, accel_limit, max_steer_angle, wheel_base, steer_ratio, max_lat_accel, RATE)
 
-        # TODO: Subscribe to all the topics you need to
+        self.loop()
+	
+	# TODO: Subscribe to all the topics you need to
         rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enabled_cb)
         rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cb)
         rospy.Subscriber('/current_velocity', TwistStamped, self.velocity_cb)
-
-        self.loop()
 
     def loop(self):
         rate = rospy.Rate(RATE) # 50Hz
